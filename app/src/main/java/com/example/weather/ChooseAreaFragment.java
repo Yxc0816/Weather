@@ -65,7 +65,7 @@ public class ChooseAreaFragment extends Fragment {
         return view;
 
     }
-
+    //从省市县列表界面跳转到天气界面
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -111,7 +111,7 @@ public class ChooseAreaFragment extends Fragment {
         });
         queryProvinces();
     }
-
+    //查询全国所有的省，优先从数据库查询，没有再去服务器查询
     private void queryProvinces() {
         mTitleText.setText("中国");
         mBackButton.setVisibility(View.GONE);
