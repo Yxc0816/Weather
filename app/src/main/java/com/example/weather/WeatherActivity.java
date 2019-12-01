@@ -63,14 +63,6 @@ public class WeatherActivity extends AppCompatActivity {
 
     private TextView pm25Text;
 
-    private TextView comfortText;
-
-    private TextView carWashText;
-
-    private TextView sportText;
-
-    private ImageView bingPicImg;
-
     private String mWeatherId;
     private Timer mTimer;
     private TimerTask mTimerTask;
@@ -88,7 +80,6 @@ public class WeatherActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_weather);
         // 初始化各控件
-      //  bingPicImg = (ImageView) findViewById(R.id.bing_pic_img);
         weatherLayout = (ScrollView) findViewById(R.id.weather_layout);
         titleCity = (TextView) findViewById(R.id.title_city);
         titleUpdateTime = (TextView) findViewById(R.id.title_update_time);
@@ -97,9 +88,6 @@ public class WeatherActivity extends AppCompatActivity {
         forecastLayout = (LinearLayout) findViewById(R.id.forecast_layout);
         aqiText = (TextView) findViewById(R.id.aqi_text);
         pm25Text = (TextView) findViewById(R.id.pm25_text);
-       // comfortText = (TextView) findViewById(R.id.comfort_text);
-      //  carWashText = (TextView) findViewById(R.id.car_wash_text);
-       // sportText = (TextView) findViewById(R.id.sport_text);
         swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -244,13 +232,6 @@ public class WeatherActivity extends AppCompatActivity {
             }
         });
 
-//
-//        String comfort = "舒适度：" + weather.suggestion.comfort.info;
-//        String carWash = "洗车指数：" + weather.suggestion.carWash.info;
-//        String sport = "运行建议：" + weather.suggestion.sport.info;
-     //   comfortText.setText(comfort);
-     //   carWashText.setText(carWash);
-     //   sportText.setText(sport);
         weatherLayout.setVisibility(View.VISIBLE);
         Intent intent = new Intent(this, AutoUpdateService.class);
         startService(intent);
