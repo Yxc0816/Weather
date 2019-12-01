@@ -10,12 +10,14 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -72,7 +74,9 @@ public class WeatherActivity extends AppCompatActivity {
     private String mWeatherId;
     private Timer mTimer;
     private TimerTask mTimerTask;
-
+    private ImageView button=null;
+    private ImageView button1=null;
+    private ImageView button2=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,9 +97,9 @@ public class WeatherActivity extends AppCompatActivity {
         forecastLayout = (LinearLayout) findViewById(R.id.forecast_layout);
         aqiText = (TextView) findViewById(R.id.aqi_text);
         pm25Text = (TextView) findViewById(R.id.pm25_text);
-        comfortText = (TextView) findViewById(R.id.comfort_text);
-        carWashText = (TextView) findViewById(R.id.car_wash_text);
-        sportText = (TextView) findViewById(R.id.sport_text);
+       // comfortText = (TextView) findViewById(R.id.comfort_text);
+      //  carWashText = (TextView) findViewById(R.id.car_wash_text);
+       // sportText = (TextView) findViewById(R.id.sport_text);
         swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
         swipeRefresh.setColorSchemeResources(R.color.colorPrimary);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -179,7 +183,7 @@ public class WeatherActivity extends AppCompatActivity {
     /**
      * 处理并展示Weather实体类中的数据。
      */
-    private void showWeatherInfo(Weather weather) {
+    private void showWeatherInfo(final Weather weather) {
         String cityName = weather.basic.cityName;
         String updateTime = weather.basic.update.updateTime.split(" ")[1];
         String degree = weather.now.temperature + "℃";
@@ -205,12 +209,48 @@ public class WeatherActivity extends AppCompatActivity {
             aqiText.setText(weather.aqi.city.aqi);
             pm25Text.setText(weather.aqi.city.pm25);
         }
-        String comfort = "舒适度：" + weather.suggestion.comfort.info;
-        String carWash = "洗车指数：" + weather.suggestion.carWash.info;
-        String sport = "运行建议：" + weather.suggestion.sport.info;
-        comfortText.setText(comfort);
-        carWashText.setText(carWash);
-        sportText.setText(sport);
+
+
+        button = findViewById(R.id.life);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder dialog= new AlertDialog.Builder(WeatherActivity.this);
+                dialog.setTitle("生活：");
+                dialog.setMessage("舒适度:"+weather.suggestion.comfort.info);
+                dialog.setPositiveButton("确定",null).show();
+            }
+        });
+
+        button1 = findViewById(R.id.wash);
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder dialog= new AlertDialog.Builder(WeatherActivity.this);
+                dialog.setTitle("生活指数及建议：");
+                dialog.setMessage("洗车指数:"+weather.suggestion.carWash.info);
+                dialog.setPositiveButton("确定",null).show();
+            }
+        });
+
+        button2 = findViewById(R.id.sport);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder dialog= new AlertDialog.Builder(WeatherActivity.this);
+                dialog.setTitle("生活指数及建议：");
+                dialog.setMessage("运行建议:"+weather.suggestion.sport.info);
+                dialog.setPositiveButton("确定",null).show();
+            }
+        });
+
+//
+//        String comfort = "舒适度：" + weather.suggestion.comfort.info;
+//        String carWash = "洗车指数：" + weather.suggestion.carWash.info;
+//        String sport = "运行建议：" + weather.suggestion.sport.info;
+     //   comfortText.setText(comfort);
+     //   carWashText.setText(carWash);
+     //   sportText.setText(sport);
         weatherLayout.setVisibility(View.VISIBLE);
         Intent intent = new Intent(this, AutoUpdateService.class);
         startService(intent);
